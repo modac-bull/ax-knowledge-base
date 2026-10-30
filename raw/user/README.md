@@ -12,4 +12,4 @@ python3 scripts/wiki.py add-url 'https://example.com/article'
 
 웹페이지를 다운로드하지 않고 링크 파일만 만듭니다. 같은 URL은 중복 파일을 만들지 않습니다. 직접 GitHub의 Add file → Create new file로 raw/user/이름.md를 만들어도 됩니다. 자료를 추가한 뒤 저장소에서 `$wiki-ingest`를 수동 실행하세요.
 
-공개 저장소이므로 회사 코드, 사용자·고객 정보, 개인 노트, 인증 키는 넣지 마세요.
+공개 저장소이므로 회사 코드, 개인정보, 개인 노트, 인증 키는 넣지 마세요.
