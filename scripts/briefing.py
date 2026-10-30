@@ -256,7 +256,7 @@ def main():
         items, failed = collect(sources, now)
         print(json.dumps({'count': len(items), 'failed_sources': failed}, ensure_ascii=False))
         return
-    path = run(root, now, lambda: collect(sources, now), lambda items: generate(items, os.environ.get('GEMINI_API_KEY', ''), os.environ.get('GEMINI_MODEL') or 'gemini-2.5-flash-lite'))
+    path = run(root, now, lambda: collect(sources, now), lambda items: generate(items, os.environ.get('GEMINI_API_KEY', ''), os.environ.get('GEMINI_MODEL') or 'gemini-3.5-flash-lite'))
     if os.environ.get('GITHUB_OUTPUT'):
         with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
             output.write('path=' + path.relative_to(root).as_posix() + '\n')
