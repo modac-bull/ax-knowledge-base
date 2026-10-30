@@ -3,7 +3,7 @@
 ## 1. 무료 Gemini 키
 
 1. [Google AI Studio](https://aistudio.google.com/apikey)에서 결제를 연결하지 않은 무료 프로젝트를 선택하고 API 키를 발급합니다.
-2. [공식 요금표](https://ai.google.dev/gemini-api/docs/pricing)에서 모델의 무료 티어와 계정 할당량을 확인합니다. 기본값은 `gemini-2.5-flash-lite`입니다.
+2. [공식 요금표](https://ai.google.dev/gemini-api/docs/pricing)에서 모델의 무료 티어와 계정 할당량을 확인합니다. 기본값은 `gemini-3.5-flash-lite`입니다.
 3. [저장소 Secret 설정](https://github.com/modac-bull/ax-knowledge-base/settings/secrets/actions)에서 **New repository secret**을 선택합니다.
 4. 이름 `GEMINI_API_KEY`, 값은 발급받은 키로 등록합니다. 채팅·파일·스크린샷에 키를 올리지 마세요.
 5. 모델 변경이 필요하면 같은 화면의 Variables에 `GEMINI_MODEL`을 추가합니다. 무료 제공 여부를 먼저 확인하세요.
