@@ -103,6 +103,10 @@ class CollectionTests(unittest.TestCase):
 
 
 class GenerationTests(unittest.TestCase):
+    def test_diagnostics_never_echo_unknown_errors(self):
+        self.assertEqual(b.diagnostic(RuntimeError('HTTP 요청 실패: 상태 404')), 'HTTP 요청 실패: 상태 404')
+        self.assertEqual(b.diagnostic(ValueError('secret-key private response')), '응답 또는 설정 검증 실패')
+
     def test_validation_rejects_untrusted_output(self):
         self.assertEqual(b.validate_summary(summary(), [item()])['items'][0]['id'], item()['id'])
         for mutate in [lambda s: s['items'][0].update(id='fake'), lambda s: s['items'].append(dict(s['items'][0])), lambda s: s.update(experiment='https://evil.example'), lambda s: s['items'][0].update(summary='English only'), lambda s: s.update(experiment='<script>악성</script>'), lambda s: s.update(experiment='![[비밀 노트]]')]:
