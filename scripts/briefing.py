@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import html
+from html.parser import HTMLParser
 import ipaddress
 import json
 import os
@@ -14,7 +15,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from urllib.error import HTTPError, URLError
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit, urljoin
 from urllib.request import build_opener, HTTPRedirectHandler, Request
 import xml.etree.ElementTree as ET
 
@@ -120,6 +121,55 @@ def parse_releases(payload, source):
     return result
 
 
+class HermesNewsParser(HTMLParser):
+    def __init__(self, source):
+        super().__init__()
+        self.source = source
+        self.items = []
+        self.card = None
+        self.field = None
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == 'article' and 'data-news-card' in attrs:
+            self.card = {'title': '', 'description': '', 'url': '', 'published': ''}
+        if self.card is None:
+            return
+        if tag == 'time' and not self.card['published']:
+            self.card['published'] = attrs.get('datetime', '')
+        if tag in ('h2', 'p'):
+            self.field = 'title' if tag == 'h2' else 'description'
+        if tag == 'a' and self.field == 'title':
+            self.card['url'] = urljoin('https://hermes-ai.net/news/', attrs.get('href', ''))
+
+    def handle_data(self, value):
+        if self.card is not None and self.field:
+            self.card[self.field] += value
+
+    def handle_endtag(self, tag):
+        if tag in ('h2', 'p'):
+            self.field = None
+        if tag != 'article' or self.card is None:
+            return
+        card, self.card = self.card, None
+        try:
+            url = canonical_url(card['url'])
+            parts = urlsplit(url)
+            if parts.hostname != 'hermes-ai.net' or not parts.path.startswith('/news/') or not card['title'].strip():
+                return
+            self.items.append(make_item(card['title'], url, card['published'], card['description'], self.source))
+        except (ValueError, TypeError, OverflowError):
+            return
+
+
+def parse_hermes(payload, source):
+    parser = HermesNewsParser(source)
+    parser.feed(payload.decode('utf-8'))
+    if not parser.items:
+        raise ValueError('Hermes 뉴스 목록 형식 확인 필요')
+    return parser.items[:100]
+
+
 def collect(sources, now, fetch=request_bytes):
     found, failed, successes = {}, [], 0
     for source in sources:
@@ -131,7 +181,9 @@ def collect(sources, now, fetch=request_bytes):
                 headers['Accept'] = 'application/vnd.github+json'
                 if os.environ.get('GH_TOKEN'):
                     headers['Authorization'] = 'Bearer ' + os.environ['GH_TOKEN']
-            parser = {'rss': parse_feed, 'releases': parse_releases}[source['kind']]
+            if source['kind'] == 'hermes_news' and canonical_url(source['url']) != 'https://hermes-ai.net/news/':
+                raise ValueError('Hermes 뉴스 주소 오류')
+            parser = {'rss': parse_feed, 'releases': parse_releases, 'hermes_news': parse_hermes}[source['kind']]
             items = parser(fetch(source['url'], headers=headers), source['name'])
             successes += 1
             for item in items:

@@ -38,5 +38,10 @@
     "name": "Hugging Face Blog",
     "kind": "rss",
     "url": "https://huggingface.co/blog/feed.xml"
+  },
+  {
+    "name": "Hermes AI 뉴스 (비공식 커뮤니티 재집계)",
+    "kind": "hermes_news",
+    "url": "https://hermes-ai.net/news/"
   }
 ]
