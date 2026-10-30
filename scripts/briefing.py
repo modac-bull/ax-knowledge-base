@@ -146,7 +146,7 @@ def collect(sources, now, fetch=request_bytes):
 
 def safe_prose(value):
     if not isinstance(value, str) or not 5 <= len(value.strip()) <= 2000 or not re.search('[가-힣]', value):
-        raise ValueError('한국어 응답 형식 오류')
+        raise ValueError('한국어 응답 형식 오류: ' + ('타입' if not isinstance(value, str) else '길이' if not 5 <= len(value.strip()) <= 2000 else '한국어 없음'))
     if re.search(r'https?://|www\.|[<>\[\]{}!`\\]|[\x00-\x1f]', value):
         raise ValueError('응답에 허용되지 않는 마크업 또는 링크')
     return value.strip()
@@ -239,7 +239,7 @@ def run(root, now, collector, generator):
 
 def diagnostic(error):
     message = str(error)
-    allowed = {'모든 출처 수집 실패', '네트워크 요청 실패', 'Gemini 응답 차단 또는 잘림', 'GEMINI_API_KEY Secret을 등록하세요', '모델 이름 오류', '한국어 응답 형식 오류', '응답에 허용되지 않는 마크업 또는 링크', '존재하지 않거나 중복된 출처', '응답 항목 수 오류', '응답 필드 오류', '응답 항목 필드 오류'}
+    allowed = {'한국어 응답 형식 오류: 타입', '한국어 응답 형식 오류: 길이', '한국어 응답 형식 오류: 한국어 없음', '모든 출처 수집 실패', '네트워크 요청 실패', 'Gemini 응답 차단 또는 잘림', 'GEMINI_API_KEY Secret을 등록하세요', '모델 이름 오류', '한국어 응답 형식 오류', '응답에 허용되지 않는 마크업 또는 링크', '존재하지 않거나 중복된 출처', '응답 항목 수 오류', '응답 필드 오류', '응답 항목 필드 오류'}
     if message in allowed or re.fullmatch(r'HTTP 요청 실패: 상태 [1-5][0-9]{2}', message):
         return message
     return '응답 또는 설정 검증 실패'
