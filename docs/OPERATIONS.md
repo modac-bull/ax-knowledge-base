@@ -31,3 +31,14 @@ Codex는 첨부 자산 메타데이터가 커서 최신 안정 릴리스 한 개
 GitHub 예약 작업은 정시성을 보장하지 않습니다. 누락 시 수동 실행하세요. 공개 저장소가 60일간 활동하지 않으면 예약 작업이 비활성화될 수 있으므로 Actions 화면에서 상태를 확인하고 필요하면 다시 활성화합니다. 기준은 [GitHub 공식 문서](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)를 확인하세요.
 
 자동화를 중단하려면 Actions에서 **AX 데일리 브리핑**을 비활성화합니다. 키를 폐기할 때는 Google AI Studio에서 폐기한 뒤 GitHub Secret도 정리합니다.
+
+## 최초 운영 검증 · 2026-10-30
+
+- 실제 Gemini 생성과 일일 노트 자동 커밋 성공: `01-Daily/2026-10-30.md`.
+- 같은 날 재실행 성공, 추가 커밋 없음, 노트 내용 해시 동일.
+- 오프라인 테스트 15개 통과.
+- 신규 프로젝트의 Gemini 2.5 접근 제한으로 기본 모델을 무료 티어가 제공되는 `gemini-3.5-flash-lite`로 변경했다. [공식 접근 제한 안내](https://ai.google.dev/gemini-api/docs/deprecations)를 참고한다.
+- 응답 검증 실패 원인은 한글을 포함하지 않은 본문 필드였다. 각 본문 필드의 한국어 문장 조건을 프롬프트에 명시하고 기존 검증은 유지했다.
+- [실제 실행 및 재실행 기록](https://github.com/modac-bull/ax-knowledge-base/actions/runs/41002078077).
+
+오류 로그는 허용 목록에 있는 안전한 원인과 HTTP 상태만 표시한다. API 오류 응답 본문과 알 수 없는 예외 메시지는 출력하지 않는다.
