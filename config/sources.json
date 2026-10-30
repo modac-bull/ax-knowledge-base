@@ -1,6 +1,42 @@
 [
-  {"name":"OpenAI 뉴스","kind":"rss","url":"https://openai.com/news/rss.xml"},
-  {"name":"Codex Releases","kind":"releases","url":"https://api.github.com/repos/openai/codex/releases/latest"},
-  {"name":"Claude Code Releases","kind":"releases","url":"https://api.github.com/repos/anthropics/claude-code/releases?per_page=30"},
-  {"name":"Vercel AI SDK Releases","kind":"releases","url":"https://api.github.com/repos/vercel/ai/releases?per_page=30"}
+  {
+    "name": "OpenAI 뉴스",
+    "kind": "rss",
+    "url": "https://openai.com/news/rss.xml"
+  },
+  {
+    "name": "Codex Releases",
+    "kind": "releases",
+    "url": "https://api.github.com/repos/openai/codex/releases/latest"
+  },
+  {
+    "name": "Claude Code Releases",
+    "kind": "releases",
+    "url": "https://api.github.com/repos/anthropics/claude-code/releases?per_page=30"
+  },
+  {
+    "name": "Vercel AI SDK Releases",
+    "kind": "releases",
+    "url": "https://api.github.com/repos/vercel/ai/releases?per_page=30"
+  },
+  {
+    "name": "Simon Willison",
+    "kind": "rss",
+    "url": "https://simonwillison.net/atom/entries/"
+  },
+  {
+    "name": "MCP TypeScript SDK",
+    "kind": "releases",
+    "url": "https://api.github.com/repos/modelcontextprotocol/typescript-sdk/releases?per_page=10"
+  },
+  {
+    "name": "MCP 명세",
+    "kind": "releases",
+    "url": "https://api.github.com/repos/modelcontextprotocol/modelcontextprotocol/releases?per_page=10"
+  },
+  {
+    "name": "Hugging Face Blog",
+    "kind": "rss",
+    "url": "https://huggingface.co/blog/feed.xml"
+  }
 ]
