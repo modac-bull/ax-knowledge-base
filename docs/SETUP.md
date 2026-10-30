@@ -14,7 +14,7 @@
 
 1. [Actions](https://github.com/modac-bull/ax-knowledge-base/actions)에서 **검증** 결과를 확인합니다.
 2. **AX 데일리 브리핑** → **Run workflow** → 브랜치 `develop` → **Run workflow**를 선택합니다.
-3. 성공 후 `01-Daily/`의 한국 날짜 파일과 새 커밋을 확인합니다. 신규 뉴스가 있다면 `status: generated`, 없다면 `status: no-news`입니다.
+3. 성공 후 `raw/daily/`와 `raw/links/`의 한국 날짜 파일과 새 커밋을 확인합니다. 신규 뉴스가 있다면 `status: generated`, 없다면 `status: no-news`입니다.
 4. 같은 날 다시 실행합니다. 수집·Gemini 호출을 생략하며 추가 커밋이 없어야 합니다.
 5. 이후 매일 UTC 23:00, 한국 시간 다음 날 08:00 전후 실행합니다.
 

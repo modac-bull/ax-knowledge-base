@@ -123,6 +123,11 @@ class GenerationTests(unittest.TestCase):
                 return summary()
             result = b.run(Path(tmp), NOW, lambda: ([item()], []), generate)
             self.assertEqual(result.name, '2026-10-31.md')
+            self.assertEqual(result.parent.name, 'daily')
+            self.assertEqual(result.parent.parent.name, 'raw')
+            links = Path(tmp) / 'raw/links/2026-10-31.md'
+            self.assertIn(URL, links.read_text())
+            self.assertNotIn('Public update', links.read_text())
             self.assertIn(URL, result.read_text())
             self.assertEqual(b.run(Path(tmp), NOW, lambda: self.fail('collection called'), generate), result)
             self.assertEqual(len(calls), 1)
@@ -139,7 +144,8 @@ class GenerationTests(unittest.TestCase):
             root = Path(tmp)
             with self.assertRaises(ValueError):
                 b.run(root, NOW, lambda: ([item()], []), lambda items: {'items': []})
-            self.assertEqual(list((root / '01-Daily').glob('*.md')), [])
+            self.assertEqual(list((root / 'raw/daily').glob('*.md')), [])
+            self.assertEqual(list((root / 'raw/links').glob('*.md')), [])
 
     def test_gemini_finish_reason_and_secret_header(self):
         seen = []

@@ -1,14 +1,22 @@
 # AX Knowledge Base
 
+## 현재 운영 방식
+
+매일 자동으로 `raw/daily/`에 리포트, `raw/links/`에 원문 링크 목록을 쌓습니다. 사용자는 `raw/user/`에 원하는 자료를 넣을 수 있습니다. **위키는 저장소에서 `$wiki-ingest`를 직접 호출할 때만 생성·갱신**합니다. 일일 자동화는 위키용 AI 요청을 추가로 하지 않습니다.
+
+[수동 위키 사용 안내](docs/MANUAL-WIKI.md) · [위키](wiki/index.md) · [사용자 자료 추가](raw/user/README.md)
+
+이전 `01-Daily/` 노트는 보존하며 초기 자료는 raw/daily에도 복사했습니다.
+
 공개 AX 뉴스·개발 도구 릴리스를 수집해 한국어 일일 브리핑으로 저장하는 별도 Obsidian Vault입니다.
 
-GitHub Actions → RSS·GitHub Releases → Gemini → `01-Daily/YYYY-MM-DD.md` → 로컬 Git Pull → Obsidian 순서로 동작합니다. 한국 시간 매일 오전 8시 전후 실행하며 GitHub 예약 지연이 가능합니다.
+GitHub Actions → RSS·GitHub Releases → Gemini → `raw/daily/YYYY-MM-DD.md` → 로컬 Git Pull → Obsidian 순서로 동작합니다. 한국 시간 매일 오전 8시 전후 실행하며 GitHub 예약 지연이 가능합니다.
 
 ## 시작하기
 
 1. [설정 가이드](docs/SETUP.md)에 따라 무료 Gemini 프로젝트와 `GEMINI_API_KEY` Secret을 준비합니다.
 2. Actions의 **AX 데일리 브리핑**을 기본 브랜치 `develop`에서 수동 실행합니다.
-3. `01-Daily/`에 오늘의 한국 날짜 노트가 커밋되는지 확인합니다.
+3. `raw/daily/`와 `raw/links/`에 오늘의 한국 날짜 노트가 커밋되는지 확인합니다.
 4. 같은 날 다시 실행해 추가 커밋이 없는지 확인합니다.
 5. 저장소를 별도 폴더에 복제하여 Obsidian Vault로 엽니다.
 
@@ -18,7 +26,7 @@ GitHub Actions → RSS·GitHub Releases → Gemini → `01-Daily/YYYY-MM-DD.md` 
 - 최근 72시간의 입력 최대 30개에서 최대 5개를 선택합니다.
 - 새 소식이 없으면 Gemini 없이 상태 노트를 저장합니다. 모든 출처가 실패하면 저장하지 않습니다.
 - 부분 수집 실패를 노트에 표시합니다. AI 출력 검증 실패 시 게시하지 않습니다.
-- 자동화는 일일 노트만 수정합니다. 스킬·주제·실험 메모는 직접 관리합니다.
+- 자동화는 raw 리포트와 링크만 추가합니다. wiki는 수동 스킬로 관리합니다.
 - 링크·날짜는 출처 데이터로 렌더링하며 AI의 해석과 사실 요약을 구분합니다.
 
 ## 무료 운영 조건

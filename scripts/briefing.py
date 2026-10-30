@@ -199,13 +199,13 @@ def markdown_text(value):
 
 def run(root, now, collector, generator):
     day = now.astimezone(KST).date().isoformat()
-    directory = root / '01-Daily'
+    directory = root / 'raw/daily'
     directory.mkdir(parents=True, exist_ok=True)
     target = directory / (day + '.md')
     if target.exists():
         return target
     seen = set()
-    for note in directory.glob('????-??-??.md'):
+    for note in list(directory.glob('????-??-??.md')) + list((root / '01-Daily').glob('????-??-??.md')):
         seen.update(re.findall(r'^  - "([a-f0-9]{64})"$', note.read_text(encoding='utf-8'), re.M))
     items, failed = collector()
     items = [item for item in items if item['id'] not in seen][:30]
@@ -225,6 +225,12 @@ def run(root, now, collector, generator):
             lines += ['## ' + markdown_text(item['title']), '', '- 출처: ' + markdown_text(item['source']), '- 발표: ' + item['published'], '- 원문: <' + item['url'].replace('>', '%3E').replace('<', '%3C') + '>', '', '**사실 요약:** ' + row['summary'], '', '**중요성 · AI 해석:** ' + row['importance'], '', '**FE 실무 적용 · 제안:** ' + row['application'], '']
         lines += ['## 오늘의 실험 · 제안', '', result['experiment'], '']
     payload = '\n'.join(lines)
+    links = root / 'raw/links' / (day + '.md')
+    links.parent.mkdir(parents=True, exist_ok=True)
+    if not links.exists():
+        # 요약 입력 후보의 링크만 보존한다. 원문 본문은 저장하지 않는다.
+        with links.open('x', encoding='utf-8') as output:
+            output.write('# 수집 링크 · ' + day + '\n\n' + '\n'.join('<' + i['url'].replace('>', '%3E').replace('<', '%3C') + '>' for i in items) + '\n')
     # 같은 파일시스템에서 완성된 파일만 독점적으로 게시한다. 기존 파일은 덮어쓰지 않는다.
     handle, temporary = tempfile.mkstemp(prefix='.briefing-', dir=directory)
     try:

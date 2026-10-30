@@ -31,15 +31,17 @@ jobs:
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           GH_TOKEN: ${{ github.token }}
         run: python scripts/briefing.py
-      - name: 검증한 일일 파일만 커밋
+      - name: 검증한 리포트와 원문 링크만 커밋
         env:
           NOTE_PATH: ${{ steps.briefing.outputs.path }}
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$NOTE_PATH" =~ ^01-Daily/[0-9]{4}-[0-9]{2}-[0-9]{2}\.md$ ]]
+          [[ "$NOTE_PATH" =~ ^raw/daily/[0-9]{4}-[0-9]{2}-[0-9]{2}\.md$ ]]
           test -f "$NOTE_PATH"
-          git add -- "$NOTE_PATH"
+          LINK_PATH="raw/links/${NOTE_PATH##*/}"
+          test -f "$LINK_PATH"
+          git add -- "$NOTE_PATH" "$LINK_PATH"
           if git diff --cached --quiet; then
             echo '이미 저장된 브리핑입니다.'
             exit 0

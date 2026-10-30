@@ -1,0 +1,13 @@
+{
+  "description": "자료 개수만 알리는 수동 위키 보조 훅",
+  "hooks": {
+    "SessionStart": [{
+      "matcher": "startup|resume",
+      "hooks": [{
+        "type": "command",
+        "command": "python3 \"$(git rev-parse --show-toplevel)/scripts/wiki_hook.py\"",
+        "timeout": 5
+      }]
+    }]
+  }
+}
