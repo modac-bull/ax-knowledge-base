@@ -237,6 +237,14 @@ def run(root, now, collector, generator):
     return target
 
 
+def diagnostic(error):
+    message = str(error)
+    allowed = {'모든 출처 수집 실패', '네트워크 요청 실패', 'Gemini 응답 차단 또는 잘림', 'GEMINI_API_KEY Secret을 등록하세요', '모델 이름 오류', '한국어 응답 형식 오류', '응답에 허용되지 않는 마크업 또는 링크', '존재하지 않거나 중복된 출처', '응답 항목 수 오류', '응답 필드 오류', '응답 항목 필드 오류'}
+    if message in allowed or re.fullmatch(r'HTTP 요청 실패: 상태 [1-5][0-9]{2}', message):
+        return message
+    return '응답 또는 설정 검증 실패'
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--collect-only', action='store_true')
@@ -258,7 +266,7 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except Exception:
+    except Exception as error:
         # 서버 응답이나 사용자 환경의 비밀 값을 출력하지 않는다.
-        print('브리핑 실패: 출처 접근, Gemini Secret·모델·무료 할당량과 설정을 확인하세요. 노트 게시를 중단했습니다.', file=sys.stderr)
+        print('브리핑 실패: ' + diagnostic(error) + '. 노트 게시를 중단했습니다.', file=sys.stderr)
         sys.exit(1)
