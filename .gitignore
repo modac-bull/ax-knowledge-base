@@ -1,0 +1,10 @@
+.obsidian/
+.trash/
+.DS_Store
+.env
+.env.*
+node_modules/
+__pycache__/
+*.pyc
+.briefing-*
+*.log
