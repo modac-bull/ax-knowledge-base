@@ -205,7 +205,7 @@ def run(root, now, collector, generator):
     if target.exists():
         return target
     seen = set()
-    for note in list(directory.glob('????-??-??.md')) + list((root / '01-Daily').glob('????-??-??.md')):
+    for note in directory.glob('????-??-??.md'):
         seen.update(re.findall(r'^  - "([a-f0-9]{64})"$', note.read_text(encoding='utf-8'), re.M))
     items, failed = collector()
     items = [item for item in items if item['id'] not in seen][:30]

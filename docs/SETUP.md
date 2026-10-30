@@ -29,7 +29,7 @@ mkdir -p ~/Documents/AX
 git clone https://github.com/modac-bull/ax-knowledge-base.git ~/Documents/AX/ax-knowledge-base
 ```
 
-Obsidian의 보관함 관리에서 **Open folder as vault / 폴더를 보관함으로 열기**를 선택해 `~/Documents/AX/ax-knowledge-base`를 엽니다. `00-Dashboard/Home`에서 탐색을 시작합니다.
+Obsidian의 보관함 관리에서 **Open folder as vault / 폴더를 보관함으로 열기**를 선택해 `~/Documents/AX/ax-knowledge-base`를 엽니다. `wiki/index.md`에서 탐색을 시작합니다.
 
 브리핑 생성 후 해당 폴더에서 `git pull --ff-only`를 실행하면 노트가 들어옵니다. 저장소의 기본 브랜치 `develop`이 체크아웃되었는지 확인하세요.
 

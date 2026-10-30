@@ -6,7 +6,7 @@
 
 [수동 위키 사용 안내](docs/MANUAL-WIKI.md) · [위키](wiki/index.md) · [사용자 자료 추가](raw/user/README.md)
 
-이전 `01-Daily/` 노트는 보존하며 초기 자료는 raw/daily에도 복사했습니다.
+자료는 `raw/`, 수동으로 정리한 지식과 시작 페이지는 `wiki/`에서 관리합니다.
 
 공개 AX 뉴스·개발 도구 릴리스를 수집해 한국어 일일 브리핑으로 저장하는 별도 Obsidian Vault입니다.
 
@@ -46,7 +46,7 @@ python3 scripts/briefing.py --collect-only
 
 수집 전용 명령은 Gemini를 호출하거나 노트를 만들지 않고 개수와 실패 출처 이름만 출력합니다.
 
-- [대시보드](00-Dashboard/Home.md)
+- [위키 시작 페이지](wiki/index.md)
 - [설정](docs/SETUP.md) · [운영 및 복구](docs/OPERATIONS.md) · [보안](SECURITY.md)
 - [Gemini 공식 요금](https://ai.google.dev/gemini-api/docs/pricing)
 - [GitHub 예약 실행 제약](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
